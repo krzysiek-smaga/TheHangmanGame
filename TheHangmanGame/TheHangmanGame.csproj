@@ -51,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="countries_and_capitals.txt" />
+    <Content Include="european_countries_and_capitals.txt" />
+    <Content Include="high_score.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

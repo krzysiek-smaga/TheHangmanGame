@@ -24,10 +24,17 @@ namespace TheHangmanGame
             }
             */
 
+            // FILE PATH to EUROPEAN countries and capitals
+            string textFilePath1 = @"C:\Users\krzys\source\repos\TheHangmanGame\TheHangmanGame\european_countries_and_capitals.txt";
+            // FILE PATH to countries_and_capitals.txt
+            string textFilePath2 = @"C:\Users\krzys\source\repos\TheHangmanGame\TheHangmanGame\countries_and_capitals.txt";
+            // FILE PATH to high_score.txt
+            string textFilePath3 = @"C:\Users\krzys\source\repos\TheHangmanGame\TheHangmanGame\high_score.txt";
+
             // Import capitals and countries from attached file
             List<string> countries = new List<string>();
             List<string> capitals = new List<string>();
-            foreach (string line in File.ReadAllLines(@"C:\Users\krzys\source\repos\TheHangmanGame\TheHangmanGame\countries_and_capitals.txt"))
+            foreach (string line in File.ReadAllLines(textFilePath2))
             {
                 string[] words = line.Split('|');
                 countries.Add(words[0].Trim());
@@ -92,7 +99,7 @@ namespace TheHangmanGame
                     //Print title screen, capital in dashes to guess, lifes, hint if one life left
                     Console.Clear();
                     Console.WriteLine(title);
-                    HangTheMan(playerLifes);
+                    HangTheMan(playerLifes);  // Method prints ASCII art
                     Console.WriteLine();
                     Console.WriteLine(" " + String.Join(" ", dashes));
                     Console.WriteLine();
@@ -186,25 +193,36 @@ namespace TheHangmanGame
                 
                 if (won)
                 {
+                    double seconds = Math.Round(timeSpan.TotalSeconds, 2);
                     Console.WriteLine("Congrats! You Won!");
-                    Console.WriteLine($"You guessed the capital after {guessesCount} letters. It took you {Math.Round(timeSpan.TotalSeconds, 2)} seconds.");
+                    Console.WriteLine($"You guessed the capital after {guessesCount} letters. It took you {seconds} seconds.");
+                    Console.WriteLine("");
+                    // High scores
+                    DateTime localDate = DateTime.Now;
+                    string dateTimeNow = localDate.ToString();
 
-                }
+                    Console.WriteLine("Type your name and press Enter");
+                    string playerInputName = Console.ReadLine();
+                    string playerName = Convert.ToString(playerInputName).ToUpper();
+
+                    string highScoreLine = $"{playerName}|{dateTimeNow}|{seconds}|{guessesCount}|{capitalToGuess}";
+                    Console.WriteLine(highScoreLine);
+                    File.AppendAllText(textFilePath3, highScoreLine + Environment.NewLine);
+                    
+                    }
                 else
                 {
                     Console.WriteLine("You lost! Better luck next time!");
                 }
                 Console.WriteLine();
                 //Question about restarting game
+                
                 Console.WriteLine("Would You like to play again?");
                 Console.WriteLine("Type 'Y' to try again or press any key to quit.");
                 string playerChoose2 = Console.ReadLine();
                 playAgain = Convert.ToString(playerChoose2).ToUpper();
 
             } while (playAgain == "Y");
-
-
-            Console.ReadLine();
 
             Console.WriteLine("End of Program");
             Console.ReadLine();
