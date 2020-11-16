@@ -12,18 +12,7 @@ namespace TheHangmanGame
     {
         public static void Main(string[] args)
         {
-            // Lists of EUROPEAN countries and capitals 
-            /*
-            List<string> europeanCountries = new List<string>();
-            List<string> europeanCapitals = new List<string>();
-            foreach (string line in File.ReadAllLines(@"C:\Users\krzys\source\repos\TheHangmanGame\TheHangmanGame\european_countries_and_capitals.txt"))
-            {
-                string[] words = line.Split('|');
-                europeanCountries.Add(words[0].Trim());
-                europeanCapitals.Add(words[1].Trim());
-            }
-            */
-
+            
             // FILE PATH to EUROPEAN countries and capitals
             string textFilePath1 = @"C:\Users\krzys\source\repos\TheHangmanGame\TheHangmanGame\european_countries_and_capitals.txt";
             // FILE PATH to countries_and_capitals.txt
@@ -197,7 +186,9 @@ namespace TheHangmanGame
                     Console.WriteLine("Congrats! You Won!");
                     Console.WriteLine($"You guessed the capital after {guessesCount} letters. It took you {seconds} seconds.");
                     Console.WriteLine("");
-                    // High scores
+
+
+                    // Variables for High score
                     DateTime localDate = DateTime.Now;
                     string dateTimeNow = localDate.ToString();
 
@@ -206,7 +197,7 @@ namespace TheHangmanGame
                     string playerName = Convert.ToString(playerInputName).ToUpper();
 
                     string highScoreLine = $"{playerName}|{dateTimeNow}|{seconds}|{guessesCount}|{capitalToGuess}";
-                    Console.WriteLine(highScoreLine);
+                    // Saving score to a file
                     File.AppendAllText(textFilePath3, highScoreLine + Environment.NewLine);
                     
                     }
@@ -224,7 +215,7 @@ namespace TheHangmanGame
 
             } while (playAgain == "Y");
 
-            Console.WriteLine("End of Program");
+            Console.WriteLine("End of Program. Press any key to Quit");
             Console.ReadLine();
         }
 
