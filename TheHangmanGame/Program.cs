@@ -90,6 +90,10 @@ namespace TheHangmanGame
                 Console.WriteLine(" " + String.Join(" ", dashes));
                 Console.WriteLine();
                 Console.WriteLine($"Life: {playerLifes}");
+                if (notInWord.Count > 0)
+                {
+                    Console.WriteLine($"Wrong letters: {String.Join(" ", notInWord)}");
+                }
                 if (playerLifes == 1)
                 {
                     Console.WriteLine($"Hint: {hint}");
@@ -161,7 +165,7 @@ namespace TheHangmanGame
                 }
 
 
-                Console.ReadLine();
+                //Console.ReadLine();
             } while (!won && playerLifes > 0);
 
             Console.Clear();
