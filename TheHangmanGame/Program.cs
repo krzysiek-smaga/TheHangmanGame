@@ -10,7 +10,7 @@ namespace TheHangmanGame
 {
     class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             // Lists of EUROPEAN countries and capitals 
             /*
@@ -50,9 +50,9 @@ namespace TheHangmanGame
                 stopwatch.Start();
 
                 // Guessing count
-                int guessesCount = 1;
+                int guessesCount = 0;
 
-                int playerLifes = 7;
+                int playerLifes = 6;
                 List<string> notInWord = new List<string>();
 
                 // Pick one random capital-country pair from list. Country for hint message.
@@ -62,7 +62,9 @@ namespace TheHangmanGame
                 string hint = $"The capital of {countries[randomIndex]}";
 
                 // static capital for tests
-                capitalToGuess = "WARSAW";
+                //capitalToGuess = "WARSAW";
+
+
                 char[] charArr = capitalToGuess.ToCharArray();
                 string showGuessedWord = String.Join(" ", charArr);
                 
@@ -90,6 +92,7 @@ namespace TheHangmanGame
                     //Print title screen, capital in dashes to guess, lifes, hint if one life left
                     Console.Clear();
                     Console.WriteLine(title);
+                    HangTheMan(playerLifes);
                     Console.WriteLine();
                     Console.WriteLine(" " + String.Join(" ", dashes));
                     Console.WriteLine();
@@ -174,6 +177,7 @@ namespace TheHangmanGame
 
                 Console.Clear();
                 Console.WriteLine(title);
+                HangTheMan(playerLifes);
                 Console.WriteLine();
                 Console.WriteLine(" " + showGuessedWord);
                 Console.WriteLine();
@@ -204,6 +208,78 @@ namespace TheHangmanGame
 
             Console.WriteLine("End of Program");
             Console.ReadLine();
+        }
+
+        public static void HangTheMan(int lifes)
+        {
+            switch (lifes)
+            {
+                case 6:
+                    Console.WriteLine("     +---+");
+                    Console.WriteLine("     |   |");
+                    Console.WriteLine("         |");
+                    Console.WriteLine("         |");
+                    Console.WriteLine("         |");
+                    Console.WriteLine("         |");
+                    Console.WriteLine("   =========");
+                    break;
+                case 5:
+                    Console.WriteLine("     +---+");
+                    Console.WriteLine("     |   |");
+                    Console.WriteLine("     O   |");
+                    Console.WriteLine("         |");
+                    Console.WriteLine("         |");
+                    Console.WriteLine("         |");
+                    Console.WriteLine("   =========");
+                    break;
+                case 4:
+                    Console.WriteLine("     +---+");
+                    Console.WriteLine("     |   |");
+                    Console.WriteLine("     O   |");
+                    Console.WriteLine("     |   |");
+                    Console.WriteLine("         |");
+                    Console.WriteLine("         |");
+                    Console.WriteLine("   =========");
+                    break;
+                case 3:
+                    Console.WriteLine("     +---+");
+                    Console.WriteLine("     |   |");
+                    Console.WriteLine("     O   |");
+                    Console.WriteLine("    /|   |");
+                    Console.WriteLine("         |");
+                    Console.WriteLine("         |");
+                    Console.WriteLine("   =========");
+                    break;
+                case 2:
+                    Console.WriteLine("     +---+");
+                    Console.WriteLine("     |   |");
+                    Console.WriteLine("     O   |");
+                    Console.WriteLine("    /|\\  |");
+                    Console.WriteLine("         |");
+                    Console.WriteLine("         |");
+                    Console.WriteLine("   =========");
+                    break;
+                case 1:
+                    Console.WriteLine("     +---+");
+                    Console.WriteLine("     |   |");
+                    Console.WriteLine("     O   |");
+                    Console.WriteLine("    /|\\  |");
+                    Console.WriteLine("    /    |");
+                    Console.WriteLine("         |");
+                    Console.WriteLine("   =========");
+                    break;
+                default:
+                    Console.WriteLine("     +---+");
+                    Console.WriteLine("     |   |");
+                    Console.WriteLine("     O   |");
+                    Console.WriteLine("    /|\\  |");
+                    Console.WriteLine("    / \\  |");
+                    Console.WriteLine("         |");
+                    Console.WriteLine("   =========");
+                    break;
+
+
+            }
         }
     }
 }
