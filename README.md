@@ -31,8 +31,6 @@ A project created based on the C# skills learned within 3 days.
 
 
 To-do list for future development:
-* Expand high score - program should remember 10 best scores (read
-from and write to file) and display them at the end, after success / failure (Undone optional task)
 * Add more conditions to avoid incorrect input from user (when player wants to guess whole word)
 
 ## Status
