@@ -20,6 +20,11 @@ namespace TheHangmanGame
             // FILE PATH to high_score.txt
             string textFilePath3 = @"C:\Users\krzys\source\repos\TheHangmanGame\TheHangmanGame\high_score.txt";
 
+            
+
+
+            
+
             // Import capitals and countries from attached file
             List<string> countries = new List<string>();
             List<string> capitals = new List<string>();
@@ -58,7 +63,7 @@ namespace TheHangmanGame
                 string hint = $"The capital of {countries[randomIndex]}";
 
                 // static capital for tests
-                //capitalToGuess = "WARSAW";
+                capitalToGuess = "WARSAW";
 
 
                 char[] charArr = capitalToGuess.ToCharArray();
@@ -199,19 +204,57 @@ namespace TheHangmanGame
                     string highScoreLine = $"{playerName}|{dateTimeNow}|{seconds}|{guessesCount}|{capitalToGuess}";
                     // Saving score to a file
                     File.AppendAllText(textFilePath3, highScoreLine + Environment.NewLine);
+
                     
-                    }
+
+
+
+
+                }
                 else
                 {
                     Console.WriteLine("You lost! Better luck next time!");
                 }
                 Console.WriteLine();
-                //Question about restarting game
+                won = false;
                 
+
+                List<HighScore> highScores = File.ReadAllLines(textFilePath3)
+                        .Select(line => HighScore.FromHighScore(line))
+                        .ToList();
+
+                var newHigh = highScores.OrderBy(x => x.GuessingTime);
+                File.WriteAllText(textFilePath3, String.Empty);
+
+                Console.WriteLine("Top 10 Players: ");
+                Console.WriteLine();
+
+
+                int j = 0;
+                foreach(HighScore score in newHigh)
+                {
+                    string highScoreLine = $"{score.PlayerName}|{score.Date}|{score.GuessingTime}|{score.GuessesCount}|{score.CapitalToGuess}";
+                    if (j < 10)
+                    {
+                        Console.WriteLine((j+1) + ". " + highScoreLine);
+                        File.AppendAllText(textFilePath3, highScoreLine + Environment.NewLine);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                    j++;
+                }
+                Console.WriteLine();
+
+                //Question about restarting game
                 Console.WriteLine("Would You like to play again?");
                 Console.WriteLine("Type 'Y' to try again or press any key to quit.");
                 string playerChoose2 = Console.ReadLine();
                 playAgain = Convert.ToString(playerChoose2).ToUpper();
+
+
+
 
             } while (playAgain == "Y");
 
