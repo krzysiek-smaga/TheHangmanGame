@@ -1,26 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TheHangmanGame
 {
     public class HighScore
     {
-        public static HighScore FromHighScore(string line)
-        {
-            string[] values = line.Split('|');
-            HighScore highScoreObject = new HighScore(
-                Convert.ToString(values[0]),
-                Convert.ToString(values[1]),
-                Convert.ToDouble(values[2]),
-                Convert.ToInt32(values[3]),
-                Convert.ToString(values[4])
-                );
-            return highScoreObject;
-        }
-
         public string PlayerName
         { get; set; }
 
@@ -45,5 +28,17 @@ namespace TheHangmanGame
             CapitalToGuess = capitalToGuess;
         }
 
+        public static HighScore FromHighScore(string line)
+        {
+            string[] values = line.Split('|');
+            HighScore highScoreObject = new HighScore(
+                Convert.ToString(values[0]),
+                Convert.ToString(values[1]),
+                Convert.ToDouble(values[2]),
+                Convert.ToInt32(values[3]),
+                Convert.ToString(values[4])
+                );
+            return highScoreObject;
+        }
     }
 }

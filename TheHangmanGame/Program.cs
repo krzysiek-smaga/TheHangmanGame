@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
 
@@ -14,16 +12,11 @@ namespace TheHangmanGame
         {
             
             // FILE PATH to EUROPEAN countries and capitals
-            string textFilePath1 = @"C:\Users\krzys\source\repos\TheHangmanGame\TheHangmanGame\european_countries_and_capitals.txt";
+            string textFilePath1 = @"..\..\european_countries_and_capitals.txt";
             // FILE PATH to countries_and_capitals.txt
-            string textFilePath2 = @"C:\Users\krzys\source\repos\TheHangmanGame\TheHangmanGame\countries_and_capitals.txt";
+            string textFilePath2 = @"..\..\countries_and_capitals.txt";
             // FILE PATH to high_score.txt
-            string textFilePath3 = @"C:\Users\krzys\source\repos\TheHangmanGame\TheHangmanGame\high_score.txt";
-
-            
-
-
-            
+            string textFilePath3 = @"..\..\high_score.txt";
 
             // Import capitals and countries from attached file
             List<string> countries = new List<string>();
@@ -41,8 +34,6 @@ namespace TheHangmanGame
             string playAgain = "";
             string alphabet = "abcdefghijklmnoprqstuwvxyz";
             alphabet = alphabet.ToUpper();
-
-            
 
             do
             {
@@ -63,12 +54,10 @@ namespace TheHangmanGame
                 string hint = $"The capital of {countries[randomIndex]}";
 
                 // static capital for tests
-                capitalToGuess = "WARSAW";
-
+                //capitalToGuess = "WARSAW";
 
                 char[] charArr = capitalToGuess.ToCharArray();
                 string showGuessedWord = String.Join(" ", charArr);
-                
 
                 // Making visualization in dashes of capital tu guess
                 string[] dashes = new string[capitalToGuess.Length];
@@ -91,22 +80,7 @@ namespace TheHangmanGame
                 do
                 {
                     //Print title screen, capital in dashes to guess, lifes, hint if one life left
-                    Console.Clear();
-                    Console.WriteLine(title);
-                    HangTheMan(playerLifes);  // Method prints ASCII art
-                    Console.WriteLine();
-                    Console.WriteLine(" " + String.Join(" ", dashes));
-                    Console.WriteLine();
-                    Console.WriteLine($"Life: {playerLifes}");
-                    if (notInWord.Count > 0)
-                    {
-                        Console.WriteLine($"Wrong letters: {String.Join(" ", notInWord)}");
-                    }
-                    if (playerLifes == 1)
-                    {
-                        Console.WriteLine($"Hint: {hint}");
-                    }
-                    Console.WriteLine();
+                    TitleScreen(title, playerLifes, notInWord, hint, dashes);
 
                     //Ask if he/she woould like to guess letter or whole word
                     //Do loop while he/she input correct letter
@@ -176,22 +150,22 @@ namespace TheHangmanGame
                     //Console.ReadLine();
                 } while (!won && playerLifes > 0);
 
+                stopwatch.Stop();
+                TimeSpan timeSpan = stopwatch.Elapsed;
+
                 Console.Clear();
                 Console.WriteLine(title);
                 HangTheMan(playerLifes);
                 Console.WriteLine();
                 Console.WriteLine(" " + showGuessedWord);
                 Console.WriteLine();
-                stopwatch.Stop();
-                TimeSpan timeSpan = stopwatch.Elapsed;
-                
+
                 if (won)
                 {
                     double seconds = Math.Round(timeSpan.TotalSeconds, 2);
                     Console.WriteLine("Congrats! You Won!");
                     Console.WriteLine($"You guessed the capital after {guessesCount} letters. It took you {seconds} seconds.");
                     Console.WriteLine("");
-
 
                     // Variables for High score
                     DateTime localDate = DateTime.Now;
@@ -205,11 +179,6 @@ namespace TheHangmanGame
                     // Saving score to a file
                     File.AppendAllText(textFilePath3, highScoreLine + Environment.NewLine);
 
-                    
-
-
-
-
                 }
                 else
                 {
@@ -217,7 +186,6 @@ namespace TheHangmanGame
                 }
                 Console.WriteLine();
                 won = false;
-                
 
                 List<HighScore> highScores = File.ReadAllLines(textFilePath3)
                         .Select(line => HighScore.FromHighScore(line))
@@ -229,14 +197,13 @@ namespace TheHangmanGame
                 Console.WriteLine("Top 10 Players: ");
                 Console.WriteLine();
 
-
                 int j = 0;
-                foreach(HighScore score in newHigh)
+                foreach (HighScore score in newHigh)
                 {
                     string highScoreLine = $"{score.PlayerName}|{score.Date}|{score.GuessingTime}|{score.GuessesCount}|{score.CapitalToGuess}";
                     if (j < 10)
                     {
-                        Console.WriteLine((j+1) + ". " + highScoreLine);
+                        Console.WriteLine((j + 1) + ". " + highScoreLine);
                         File.AppendAllText(textFilePath3, highScoreLine + Environment.NewLine);
                     }
                     else
@@ -248,18 +215,42 @@ namespace TheHangmanGame
                 Console.WriteLine();
 
                 //Question about restarting game
-                Console.WriteLine("Would You like to play again?");
-                Console.WriteLine("Type 'Y' to try again or press any key to quit.");
-                string playerChoose2 = Console.ReadLine();
-                playAgain = Convert.ToString(playerChoose2).ToUpper();
-
-
-
+                playAgain = RestartingGame();
 
             } while (playAgain == "Y");
 
             Console.WriteLine("End of Program. Press any key to Quit");
             Console.ReadLine();
+        }
+
+        private static string RestartingGame()
+        {
+            string playAgain;
+            Console.WriteLine("Would You like to play again?");
+            Console.WriteLine("Type 'Y' to try again or press any key to quit.");
+            string playerChoose2 = Console.ReadLine();
+            playAgain = Convert.ToString(playerChoose2).ToUpper();
+            return playAgain;
+        }
+
+        private static void TitleScreen(string title, int playerLifes, List<string> notInWord, string hint, string[] dashes)
+        {
+            Console.Clear();
+            Console.WriteLine(title);
+            HangTheMan(playerLifes);  // Method prints ASCII art
+            Console.WriteLine();
+            Console.WriteLine(" " + String.Join(" ", dashes));
+            Console.WriteLine();
+            Console.WriteLine($"Life: {playerLifes}");
+            if (notInWord.Count > 0)
+            {
+                Console.WriteLine($"Wrong letters: {String.Join(" ", notInWord)}");
+            }
+            if (playerLifes == 1)
+            {
+                Console.WriteLine($"Hint: {hint}");
+            }
+            Console.WriteLine();
         }
 
         public static void HangTheMan(int lifes)
@@ -329,7 +320,6 @@ namespace TheHangmanGame
                     Console.WriteLine("         |");
                     Console.WriteLine("   =========");
                     break;
-
 
             }
         }
